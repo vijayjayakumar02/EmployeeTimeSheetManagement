@@ -1,0 +1,301 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    function AddToTimeList() {
+        var tblTimeList = $("#tblTimeList");
+        var start = $("#TimeIn").val();
+        var end = $("#TimeOut").val();
+        var description = $("#description").val();
+        var tblList = "<tr><td>" +
+            start +
+            "</td><td>" +
+            end +
+            "</td><td>" +
+            description +
+            "</td><td>" +
+            diff(start, end) +
+            "</td><td> <input type='button' value='remove' name='remove' class='btn btnRemoveTime btn-danger btn-sm' onclick='RemoveTimeList()' style='margin:5px'/> </td></tr>";
+        tblTimeList.append(tblList);
+    }
+    function ResetTime() {
+        $("#TimeIn").val('');
+        $("#TimeOut").val('');
+        $("#description").val('');
+    }
+    function startTime() {
+        let today = new Date();
+        if (today.getHours() < 10) {
+            var time = "0" + today.getHours() + ":" + today.getMinutes()
+        }
+        else {
+            var time = today.getHours() + ":" + today.getMinutes()
+        }
+        document.getElementById("BreakIn").value = time;
+    }
+    function stopTime() {
+        var today = new Date();
+        if (today.getHours() < 10) {
+            var time = "0" + today.getHours() + ":" + today.getMinutes()
+        }
+        else {
+            var time = today.getHours() + ":" + today.getMinutes()
+        }
+        document.getElementById("BreakOut").value = time;
+    }
+    function diff(start, end) {
+        start = $("#TimeIn").val();
+        end = $("#TimeOut").val();
+        start = start.split(":");
+        end = end.split(":");
+        var startDate = new Date(0, 0, 0, start[0], start[1], 0);
+        var endDate = new Date(0, 0, 0, end[0], end[1], 0);
+        var diff = endDate.getTime() - startDate.getTime();
+        var hours = Math.floor(diff / 1000 / 60 / 60);
+        diff -= hours * 1000 * 60 * 60;
+        var minutes = Math.floor(diff / 1000 / 60);
+        return (hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes;
+    }
+    function RemoveTimeList() {
+        $(".btnRemoveTime").closest('tr').remove();
+    }
+    function AddToBreakList() {
+        var tblBreakList = $("#tblBreakList");
+        var startBreak = $("#BreakIn").val();
+        var endBreak = $("#BreakOut").val();
+        var type = $("#breaktime").val();
+        var tblBreak = "<tr><td>" +
+            startBreak +
+            "</td><td>" +
+            endBreak +
+            "</td><td>" +
+            type +
+            "</td><td>" +
+            BreakDiff(startBreak, endBreak) +
+            "</td><td> <input type='button' value='remove' name='remove' class='btn btnRemoveBreak btn-danger btn-sm' onclick='RemoveBreakList()' style='margin:5px'/> </td></tr>";
+        tblBreakList.append(tblBreak);
+    }
+    function BreakDiff(startBreak, endBreak) {
+        startBreak = $("#BreakIn").val();
+        endBreak = $("#BreakOut").val();
+        startBreak = startBreak.split(":");
+        endBreak = endBreak.split(":");
+        var starBreakDate = new Date(0, 0, 0, startBreak[0], startBreak[1], 0);
+        var endBreakDate = new Date(0, 0, 0, endBreak[0], endBreak[1], 0);
+        var breakDiff = endBreakDate.getTime() - starBreakDate.getTime();
+        var Breakhours = Math.floor(breakDiff / 1000 / 60 / 60);
+        breakDiff -= Breakhours * 1000 * 60 * 60;
+        var Breakminutes = Math.floor(breakDiff / 1000 / 60);
+        return (Breakhours < 9 ? "0" : "") + Breakhours + ":" + (Breakminutes < 9 ? "0" : "") + Breakminutes;
+    }
+    function RemoveBreakList() {
+        $(".btnRemoveBreak").closest('tr').remove();
+    }
+</script>
+
+
+
+@*<script type="text/javascript">
+        document.getElementById("btnAddToTime").onclick = function () {
+            AddThemToList();
+        }
+        function AddThemToList() {
+            var tblItemList = document.getElementById("tblTimeList");
+            var start = document.getElementById("TimeIn").value;
+            var end = document.getElementById("TimeOut").value;
+            function diff(start, end) {
+                start = document.getElementById("TimeIn").value; //to update time value in each input bar
+                end = document.getElementById("TimeOut").value; //to update time value in each input bar
+                start = start.split(":");
+                end = end.split(":");
+                var startDate = new Date(0, 0, 0, start[0], start[1], 0);
+                var endDate = new Date(0, 0, 0, end[0], end[1], 0);
+                var diff = endDate.getTime() - startDate.getTime();
+                var hours = Math.floor(diff / 1000 / 60 / 60);
+                diff -= hours * 1000 * 60 * 60;
+                var minutes = Math.floor(diff / 1000 / 60);
+                return (hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes;
+            }
+            var TimeInputlist = document.getElementById("TimeOut").innerHTML = diff(start, end);
+            tblItemList.append(TimeInputlist);
+        }
+    </script>*@
+
+<style>
+    fieldset {
+        border: 1px solid #ddd !important;
+        margin: 0;
+        margin-top: 15px;
+        min-width: 0;
+        padding: 10px;
+        position: relative;
+        border-radius: 4px;
+        background-color: #f5f5f5;
+        padding-left: 10px !important;
+    }
+
+    legend {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 0px;
+        border: 1px solid #ddd;
+        width: 35%;
+        border-radius: 4px;
+        padding: 5px 5px 5px 10px;
+        background-color: #ffffff;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        text-align: center;
+    }
+</style>
+
+<form action="/action_page.php">
+    <fieldset>
+        <legend>
+            Select the Date
+        </legend>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group" style="font-size:larger">
+                        <label for="Date">Select a Date:</label>
+                        <input type="date" id="date" name="Date" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>
+            Time In And Out
+        </legend>
+        <div class="container" style="font-size:larger">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="TimeIn">Time In:</label>
+                        <input type="time" id="TimeIn" name="TimeIn">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="TimeOut">Time Out:</label>
+                        <input type="time" id="TimeOut" name="TimeOut">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label for="TimeIn">Description:</label>
+                        <br>
+                        <textarea rows="2" cols="60" name="comment" id="description" form="usrform" placeholder="comments.."></textarea>
+                    </div>
+                </div>
+                <div class="col-md-4" style="margin-top:60px">
+                    <div class="form-group">
+                        <input style="text-align: right" type="button" value="Add" name="Add" id="btnAddToTime" class="btn btn-success" onclick="AddToTimeList()" />
+                        <input style="text-align: right; margin-left:10px" type="button" value="Reset" name="Reset" id="btnReset" class="btn btn-warning" onclick="ResetTime()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>
+            Break In And Out
+        </legend>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="BreakIn">Break In:</label>
+                        <input type="time" id="BreakIn" name="BreakIn">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="BreakOut">break Out:</label>
+                        <input type="time" id="BreakOut" name="BreakOut">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select name="breaktime" id="breaktime">
+                            <option value="Teabreak">Tea Break</option>
+                            <option value="Lunchbreak">Lunch Break</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" style="margin-top:10px">
+                    <div class="form-group">
+                        <input style="text-align: right" type="button" value="Start" name="Start" id="btnStart" class="btn btn-primary" onclick="startTime()" />
+                        <input style="text-align: right; margin-left:10px" type="button" value="Stop" name="Reset" id="btnReset" class="btn btn-danger" onclick="stopTime()" />
+                        <input style="text-align: right; margin-left: 10px" type="button" value="Add" name="Add" id="btnAddToList" class="btn btn-success" onclick="AddToBreakList()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Time In And Out Record</legend>
+        <table style="width:100%" id="tblTimeList">
+            <thead>
+                <tr>
+                    <th>
+                        Time In
+                    </th>
+                    <th>
+                        Time Out
+                    </th>
+                    <th>
+                        Comments
+                    </th>
+                    <th>
+                        Total-Work Time
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </fieldset>
+
+    <fieldset>
+        <legend>Break In And Out Record</legend>
+        <table style="width:100%" id="tblBreakList">
+            <thead>
+                <tr>
+                    <th>
+                        Break In
+                    </th>
+                    <th>
+                        Break Out
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Total-Break Time
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </fieldset>
+    <button class="btn btn-success btn-ld mr-auto" style="margin:10px; float:right; margin-bottom:20px">Save</button>
+</form>
